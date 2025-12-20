@@ -29,6 +29,11 @@ public class TVUser {
 		System.out.println(ltv == ltv2 ? "lg : 같음" : "lg : 다름");
 		System.out.println(stv == stv2 ? "s : 같음" : "s : 다름");
 		ctx.close();
+		//출력 결과
+		// lg : 다름
+		// s : 같음
+		// lg는 객체가 서로 다른게 맞음 (prototye)
+		// s는 객체가 같은게 맞음 (singleton)
 	}
 	
 }
