@@ -6,6 +6,7 @@
 	<select id="getList" resultType="org.joonzis.domain.BoardVO">
 		SELECT * FROM tbl_board
 	</select>
+	
 	<insert id="insert" parameterType="org.joonzis.domain.BoardVO">
 		INSERT INTO tbl_board
 		VALUES(
@@ -17,14 +18,23 @@
 			sysdate
 		)
 	</insert>
+	
 	<select id="read" parameterType="int" resultType="org.joonzis.domain.BoardVO">
 		SELECT * FROM tbl_board WHERE bno=#{bno}
 	</select>
+	
 	<update id="update" parameterType="org.joonzis.domain.BoardVO">
-		UPDATE tbl_board
-		SET title=#{title}, content=#{content}, writer=#{writer}, updatedate=sysdate
-		WHERE bno=#{bno}
+		UPDATE 
+			tbl_board
+		SET 
+			title=#{title},
+		 	content=#{content}, 
+		 	writer=#{writer}, 
+		 	updatedate=sysdate
+		WHERE 
+			bno=#{bno}
 	</update>
+	
 	<delete id="delete">
 		DELETE FROM tbl_board WHERE bno=#{bno}
 	</delete>
