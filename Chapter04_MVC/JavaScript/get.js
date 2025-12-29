@@ -11,7 +11,8 @@ addEvent_btn((e) => {
         modify();
     }
     else if (me.id == 'indexBtn') {
-        location.href = '/board/list';
+        const { pageNum, amount } = getStorageData(); // 구조분해할당을 통해 pageNum과 amount를 가져옴
+        location.href = `/board/list?pageNum=${pageNum}&amount=${amount}`;
     }
 });
 

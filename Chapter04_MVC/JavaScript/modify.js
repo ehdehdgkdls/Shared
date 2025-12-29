@@ -18,7 +18,8 @@ document.querySelectorAll('.panel-body-btns button').forEach(btn => {
             modify();
         }
         else if (me.id == 'indexBtn') {
-            location.href = '/board/list';
+            const { pageNum, amount } = getStorageData(); // 구조분해할당을 통해 pageNum과 amount를 가져옴
+            location.href = `/board/list?pageNum=${pageNum}&amount=${amount}`;
         }
         else if (me.id == 'removeBtn') {
             remove();
@@ -26,8 +27,12 @@ document.querySelectorAll('.panel-body-btns button').forEach(btn => {
     })
 });
 function modify() {
-    if (!f.title.value || !f.content.value) {
-        alert("모든 값을 입력해주세요");
+    if (!f.title.value) {
+        alert("제목을 입력해주세요");
+        return;
+    }
+    if (!f.content.value) {
+        alert("내용을 입력해주세요");
         return;
     }
     f.action = '/board/modify';
@@ -37,6 +42,11 @@ function remove() {
     if (!confirm("삭제하시겠습니까?")) {
         return;
     }
+    //vo.bno만 post 방식으로 전달
+    const bnoEle = f.bno;
+    f.innerHTML = '';   //form 내부의 모든 엘리먼트를 제거
+    f.appendChild(bnoEle); //vo.bno만 form 내부에 추가
+
     f.action = '/board/remove';
     f.submit();
 }
