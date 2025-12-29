@@ -3,10 +3,11 @@ package org.joonzis.mapper;
 import java.util.List;
 
 import org.joonzis.domain.BoardVO;
+import org.joonzis.domain.Criteria;
 
 public interface BoardMapper {
 	// 전체 리스트
-	public List<BoardVO> getList();
+	public List<BoardVO> getList(Criteria cri);
 	
 	// 데이터 삽입 INSERT
 	public int insert(BoardVO vo);
@@ -16,4 +17,6 @@ public interface BoardMapper {
 	public int update(BoardVO vo);
 	// 데이터 삭제 DELETE -- PK가 조건
 	public int delete(int bno);
+	
+	public int getTotal();
 }

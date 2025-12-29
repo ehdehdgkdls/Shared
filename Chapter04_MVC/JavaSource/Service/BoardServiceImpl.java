@@ -3,6 +3,7 @@ package org.joonzis.Service;
 import java.util.List;
 
 import org.joonzis.domain.BoardVO;
+import org.joonzis.domain.Criteria;
 import org.joonzis.mapper.BoardMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,9 +16,9 @@ public class BoardServiceImpl implements BoardService{
 	BoardMapper mapper;
 	
 	@Override
-	public List<BoardVO> getList() {
+	public List<BoardVO> getList(Criteria cri) {
 		log.info("getList::");
-		return mapper.getList();
+		return mapper.getList(cri);
 	}
 	@Override
 	public void register(BoardVO vo) {
@@ -38,5 +39,11 @@ public class BoardServiceImpl implements BoardService{
 	public boolean remove(int bno) {
 		log.info("remove::" + bno);
 		return mapper.delete(bno) == 1;
+	}
+	@Override
+	public int getTotal() {
+		int result = mapper.getTotal();
+		log.info("total::"+result);
+		return result;
 	}
 }

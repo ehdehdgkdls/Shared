@@ -3,10 +3,11 @@ package org.joonzis.Service;
 import java.util.List;
 
 import org.joonzis.domain.BoardVO;
+import org.joonzis.domain.Criteria;
 
 public interface BoardService {
 	// 전체 리스트
-	public List<BoardVO> getList();
+	public List<BoardVO> getList(Criteria cri);
 	public BoardVO get(int bno);
 	// 데이터 삽입
 	public void register(BoardVO vo);
@@ -14,4 +15,5 @@ public interface BoardService {
 	public boolean remove(int bno);
 	// 데이터 수정
 	public boolean modify(BoardVO vo);
+	public int getTotal();
 }

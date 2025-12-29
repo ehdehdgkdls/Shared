@@ -2,6 +2,8 @@ package org.joonzis.controller;
 
 import org.joonzis.Service.BoardService;
 import org.joonzis.domain.BoardVO;
+import org.joonzis.domain.Criteria;
+import org.joonzis.domain.PageDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,10 +25,22 @@ public class BoardController {
 	
 	//전체 데이터
 	@GetMapping("/list") //get 방식, cmd는 list
-	public String list(Model model) { 	/* ps) 만일 리다이렉트를 받는 곳 rttr의 파라미터를 받을 거라면? 
-										 	   @ModelAttribute 어노테이션을 이용해서 매개변수로 받을 수 있음 */
-		log.info("BoardController::list");
-		model.addAttribute("list", service.getList());
+	public String list(Criteria cri,Model model) { 
+										 	   
+		log.info("BoardController::list , " + cri);
+		
+		//페이징 처리
+		if(cri.getPageNum() == 0 || cri.getAmount() == 0) {
+			cri.setPageNum(1);
+			cri.setAmount(10);
+		}
+		model.addAttribute("list", service.getList(cri));
+		
+		// 페이징 이동을 위한 처리 (총 게시글 개수, 페이지의 개수 등)
+		int total = service.getTotal();
+		log.info("BoardController::total = " + total);
+		model.addAttribute("pageMaker", new PageDTO(cri,total));
+		
 		return "/board/list"; // 도착 url(jsp)과 요청 경로(컨트롤러)가 같은 경우 생략하고, 반환타입을 void로 가능 
 	}
 	// 등록
@@ -49,18 +63,12 @@ public class BoardController {
 		model.addAttribute("vo", service.get(bno));
 		return "/board/get";
 	}
-	// 삭제
-	@PostMapping("/remove")
-	public String remove(@RequestParam("bno") int bno) {
-		log.info("BoardController::remove, bno="+bno);
-		service.remove(bno);
-		return "redirect:/board/list";
-	}
 	// 수정
 	@PostMapping("/modify")
 	public String modify (BoardVO vo) {
 		log.info("BoardController::modify, vo="+vo);
 		boolean result = service.modify(vo);
+		//list로 보내기 또는 get으로 보내도 됨
 		return "redirect:/board/list";
 	}
 	@GetMapping("/modify") // get 방식의 register와 비슷한 구조라서 합쳐도 된다
@@ -70,4 +78,13 @@ public class BoardController {
 		model.addAttribute("vo",service.get(bno));
 		return "/board/modify";
 	}
+	// 삭제
+	@PostMapping("/remove")
+	public String remove(@RequestParam("bno") int bno) {
+		log.info("BoardController::remove, bno="+bno);
+		service.remove(bno);
+		return "redirect:/board/list";
+	}
+	//get 방식은 빠르지만, 보안이 취약함 -> 데이터의 변경이 없는 경우
+	//post 방식은 get보다는 느리지만, 보안이 그나마 덜 취약함
 }
