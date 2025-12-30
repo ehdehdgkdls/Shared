@@ -1,0 +1,12 @@
+**파일 구조**
+apllciationContext
+    ㄴ applicationContext3.xml
+src
+    ㄴ DI_1
+    ㄴ DI_2
+    ㄴ DI_3
+
+**파일 설명**
+apllicationContext : .xml 파일 (spring container의 beans 정의)
+src                : java 파일
+    ㄴ DI_?            : org.joonzis.DI_? 패키지 내부 내용
